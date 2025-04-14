@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Notepad</title>
+
+    <!-- font family link -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Quill CSS -->
+    <link
+      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
+      rel="stylesheet"
+    />
+    <!-- Updated Quill version -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Favicon (optional, replace with your own) -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>"
+    />
+  </head>
+  <body>
+    <div class="notepad-container">
+      <div class="toolbar">
+        <!-- Hamburger Menu for File Operations -->
+        <div class="toolbar-section file-ops-dropdown">
+          <button id="btnHamburger" title="File Menu">☰</button>
+          <!-- Hamburger Icon -->
+          <div id="fileDropdown" class="dropdown-content">
+            <button id="btnNew" title="New File (Ctrl+N)">New</button>
+            <button id="btnOpen" title="Open File (Ctrl+O)">Open</button>
+            <button id="btnSave" title="Save File (Ctrl+S)">Save</button>
+            <button id="btnSaveAs" title="Save As...">Save As</button>
+          </div>
+        </div>
+
+        <!-- Quill Toolbar -->
+        <div id="quill-toolbar">
+          <span class="ql-formats">
+            <!-- Font Family Dropdown -->
+            <select class="ql-font" title="Font Family">
+              <option selected>Sans Serif</option>
+              <option value="serif">Serif</option>
+              <option value="monospace">Monospace</option>
+              <option value="arial">Arial</option>
+              <option value="comic-sans">Comic Sans MS</option>
+              <option value="courier-new">Courier New</option>
+              <option value="georgia">Georgia</option>
+              <option value="helvetica">Helvetica</option>
+              <option value="lucida">Lucida Sans Unicode</option>
+              <option value="tahoma">Tahoma</option>
+              <option value="times-new-roman">Times New Roman</option>
+              <option value="trebuchet">Trebuchet MS</option>
+              <option value="verdana">Verdana</option>
+            </select>
+            <!-- Font Size Dropdown -->
+            <select class="ql-size" title="Font Size">
+              <option value="small">Small</option>
+              <option selected>Normal</option>
+              <!-- Default -->
+              <option value="large">Large</option>
+              <option value="huge">Huge</option>
+              <!-- Custom pixel sizes -->
+              <option value="10px">10px</option>
+              <option value="12px">12px</option>
+              <option value="18px">18px</option>
+              <option value="24px">24px</option>
+              <option value="32px">32px</option>
+            </select>
+            <select class="ql-header" title="Heading/Normal Text">
+              <option selected>Normal</option>
+              <option value="1">Heading 1</option>
+              <option value="2">Heading 2</option>
+              <option value="3">Heading 3</option>
+              <option value="4">Heading 4</option>
+            </select>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-bold" title="Bold (Ctrl+B)"></button>
+            <button class="ql-italic" title="Italic (Ctrl+I)"></button>
+            <button class="ql-underline" title="Underline (Ctrl+U)"></button>
+            <button class="ql-strike" title="Strikethrough"></button>
+          </span>
+          <span class="ql-formats">
+            <button
+              class="ql-list"
+              value="ordered"
+              title="Numbered List"
+            ></button>
+            <button
+              class="ql-list"
+              value="bullet"
+              title="Bulleted List"
+            ></button>
+            <button
+              class="ql-indent"
+              value="-1"
+              title="Decrease Indent"
+            ></button>
+            <button
+              class="ql-indent"
+              value="+1"
+              title="Increase Indent"
+            ></button>
+          </span>
+          <span class="ql-formats">
+            <select class="ql-align" title="Text Alignment"></select>
+            <button class="ql-link" title="Insert Link"></button>
+            <button class="ql-image" title="Insert Image"></button>
+            <!-- Note: Image handling might need more setup -->
+            <button class="ql-video" title="Insert Video"></button>
+            <button class="ql-code-block" title="Code Block"></button>
+            <button class="ql-blockquote" title="Blockquote"></button>
+          </span>
+          <span class="ql-formats">
+            <select class="ql-color" title="Text Color"></select>
+            <select class="ql-background" title="Background Color"></select>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-clean" title="Remove Formatting"></button>
+          </span>
+        </div>
+
+        <div class="toolbar-section settings">
+          <button id="btnTheme" title="Toggle Light/Dark Theme">🌓</button>
+        </div>
+      </div>
+
+      <!-- Quill Editor container -->
+      <div id="editor"></div>
+
+      <div class="status-bar">
+        <span
+          id="fileStatus"
+          title="Current file name (* indicates unsaved changes)"
+          >Untitled</span
+        >
+        | <span id="wordCount" title="Total word count">Words: 0</span> |
+        <span id="saveStatus" title="Current save status"></span>
+      </div>
+    </div>
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+  </body>
+</html>

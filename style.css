@@ -1,0 +1,412 @@
+/* Basic Reset & Root Variables */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --border-color: #cccccc;
+  --toolbar-bg: #f0f0f0;
+  --button-bg: #e0e0e0;
+  --button-hover-bg: #d0d0d0;
+  --button-active-bg: #c0c0c0;
+  --dropdown-bg: #ffffff;
+  --dropdown-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  --dropdown-item-hover: #f1f1f1;
+  --primary-color: #007bff;
+  --status-bar-bg: #e9e9e9;
+  --editor-bg: #ffffff;
+  --scrollbar-track-bg: #f1f1f1;
+  --scrollbar-thumb-bg: #c1c1c1;
+  --scrollbar-thumb-hover-bg: #a8a8a8;
+}
+
+.dark-theme {
+  --bg-color: #2b2b2b;
+  --text-color: #e0e0e0;
+  --border-color: #555555;
+  --toolbar-bg: #3c3c3c;
+  --button-bg: #505050;
+  --button-hover-bg: #606060;
+  --button-active-bg: #707070;
+  --dropdown-bg: #444444;
+  --dropdown-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+  --dropdown-item-hover: #5a5a5a;
+  --primary-color: #4a90e2;
+  --status-bar-bg: #333333;
+  --editor-bg: #303030;
+  --scrollbar-track-bg: #424242;
+  --scrollbar-thumb-bg: #6b6b6b;
+  --scrollbar-thumb-hover-bg: #858585;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Main Layout */
+.notepad-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: var(--toolbar-bg);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  gap: 10px;
+  position: relative; /* Needed for absolute positioning of dropdown */
+  z-index: 100; /* Ensure toolbar is above editor */
+}
+
+.toolbar-section {
+  display: flex;
+  gap: 5px;
+}
+
+.toolbar button,
+.toolbar select {
+  padding: 5px 10px;
+  background-color: var(--button-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  color: var(--text-color);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  height: 30px; /* Consistent height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar button:hover,
+.toolbar select:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.toolbar button:active {
+  background-color: var(--button-active-bg);
+}
+
+/* Hamburger Dropdown Specific Styles */
+.file-ops-dropdown {
+  position: relative; /* Anchor point for the dropdown */
+  display: inline-block;
+}
+
+#btnHamburger {
+  font-size: 1.2em; /* Make hamburger icon slightly larger */
+  padding: 5px 8px;
+}
+
+.dropdown-content {
+  display: none; /* Hidden by default */
+  position: absolute;
+  background-color: var(--dropdown-bg);
+  min-width: 160px;
+  box-shadow: var(--dropdown-shadow);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  z-index: 101; /* Above toolbar content */
+  top: 100%; /* Position below the hamburger button */
+  left: 0;
+  margin-top: 2px; /* Small gap */
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dropdown-content.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-content button {
+  color: var(--text-color);
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background-color: transparent; /* Inherit from dropdown-content */
+  border: none; /* Remove default button border */
+  border-radius: 0; /* Override general button style */
+  border-bottom: 1px solid var(--border-color); /* Separator lines */
+  height: auto; /* Override fixed height */
+}
+.dropdown-content button:last-child {
+  border-bottom: none; /* No border for the last item */
+}
+
+.dropdown-content button:hover {
+  background-color: var(--dropdown-item-hover);
+}
+
+/* Quill Toolbar Styling */
+#quill-toolbar {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+}
+
+#quill-toolbar .ql-formats {
+  margin-right: 10px !important;
+}
+
+#quill-toolbar button,
+#quill-toolbar .ql-picker {
+  color: var(--text-color) !important;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px; /* Align better with text inputs */
+}
+#quill-toolbar .ql-picker-label {
+  color: var(--text-color) !important;
+}
+#quill-toolbar .ql-stroke {
+  stroke: var(--text-color) !important;
+}
+#quill-toolbar .ql-fill {
+  fill: var(--text-color) !important;
+}
+#quill-toolbar .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before,
+#quill-toolbar .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before {
+  content: "10px" !important;
+  font-size: 10px;
+}
+#quill-toolbar .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before,
+#quill-toolbar .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: "12px" !important;
+  font-size: 12px;
+}
+#quill-toolbar .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before,
+#quill-toolbar .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "18px" !important;
+  font-size: 18px;
+}
+#quill-toolbar .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before,
+#quill-toolbar .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "24px" !important;
+  font-size: 24px;
+}
+#quill-toolbar .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before,
+#quill-toolbar .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before {
+  content: "32px" !important;
+  font-size: 32px;
+}
+/* Font family specific styles */
+#quill-toolbar .ql-font .ql-picker-item[data-value="arial"]::before {
+  font-family: Arial, sans-serif;
+  content: "Arial";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="arial"]::before {
+  font-family: Arial, sans-serif;
+  content: "Arial";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="comic-sans"]::before {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  content: "Comic Sans";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="comic-sans"]::before {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  content: "Comic Sans";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="courier-new"]::before {
+  font-family: "Courier New", Courier, monospace;
+  content: "Courier New";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="courier-new"]::before {
+  font-family: "Courier New", Courier, monospace;
+  content: "Courier New";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="georgia"]::before {
+  font-family: Georgia, serif;
+  content: "Georgia";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="georgia"]::before {
+  font-family: Georgia, serif;
+  content: "Georgia";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="helvetica"]::before {
+  font-family: Helvetica, sans-serif;
+  content: "Helvetica";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="helvetica"]::before {
+  font-family: Helvetica, sans-serif;
+  content: "Helvetica";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="lucida"]::before {
+  font-family: "Lucida Sans Unicode", Lucida Grande, sans-serif;
+  content: "Lucida";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="lucida"]::before {
+  font-family: "Lucida Sans Unicode", Lucida Grande, sans-serif;
+  content: "Lucida";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="tahoma"]::before {
+  font-family: Tahoma, Geneva, sans-serif;
+  content: "Tahoma";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="tahoma"]::before {
+  font-family: Tahoma, Geneva, sans-serif;
+  content: "Tahoma";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="times-new-roman"]::before {
+  font-family: "Times New Roman", Times, serif;
+  content: "Times New Roman";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="times-new-roman"]::before {
+  font-family: "Times New Roman", Times, serif;
+  content: "Times New Roman";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="trebuchet"]::before {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  content: "Trebuchet";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="trebuchet"]::before {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  content: "Trebuchet";
+}
+#quill-toolbar .ql-font .ql-picker-item[data-value="verdana"]::before {
+  font-family: Verdana, Geneva, sans-serif;
+  content: "Verdana";
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value="verdana"]::before {
+  font-family: Verdana, Geneva, sans-serif;
+  content: "Verdana";
+}
+
+/* Dark theme adjustments for Quill pickers (dropdowns) */
+.dark-theme #quill-toolbar button:hover,
+.dark-theme #quill-toolbar .ql-picker:hover {
+  background-color: var(--button-hover-bg) !important;
+  color: var(--text-color) !important;
+}
+.dark-theme #quill-toolbar .ql-picker-options {
+  background-color: var(--toolbar-bg);
+  border-color: var(--border-color);
+}
+.dark-theme #quill-toolbar .ql-picker-item,
+.dark-theme #quill-toolbar .ql-picker-item.ql-selected {
+  color: var(--text-color) !important;
+}
+.dark-theme #quill-toolbar .ql-picker-item:hover {
+  color: var(--primary-color) !important;
+  background-color: var(--button-hover-bg) !important;
+}
+.dark-theme #quill-toolbar .ql-active {
+  background-color: var(--button-active-bg) !important;
+}
+
+/* Editor Area */
+#editor {
+  flex-grow: 1;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+  background-color: var(--editor-bg);
+  transition: background-color 0.3s ease;
+  position: relative; /* Needed for absolute elements inside potentially */
+  z-index: 1; /* Below toolbar */
+}
+
+/* Quill Editor Specific Styling */
+.ql-container.ql-snow {
+  border: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px; /* Set default base size */
+}
+
+.ql-editor {
+  flex-grow: 1;
+  line-height: 1.6;
+  padding: 20px 25px; /* More padding */
+  color: var(--text-color);
+  caret-color: var(--text-color);
+  background-color: var(--editor-bg);
+  transition: color 0.3s ease, background-color 0.3s ease, caret-color 0.3s ease;
+  overflow-y: auto;
+  /* Custom Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+}
+.ql-editor::-webkit-scrollbar {
+  width: 10px; /* Slightly wider scrollbar */
+}
+.ql-editor::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-bg);
+  border-radius: 5px;
+}
+.ql-editor::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-bg);
+  border-radius: 5px;
+  border: 2px solid var(--scrollbar-track-bg);
+}
+.ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-bg);
+}
+
+/* Status Bar */
+.status-bar {
+  padding: 5px 15px;
+  background-color: var(--status-bar-bg);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85em;
+  color: var(--text-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+  text-align: right;
+  flex-shrink: 0;
+  user-select: none;
+  height: 25px; /* Fixed height */
+  line-height: 15px; /* Center text vertically */
+}
+
+.status-bar span {
+  margin: 0 5px;
+}
+
+#saveStatus {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Utility */
+.hidden {
+  display: none;
+}
+
+/* Add this within your style.css */
+#quill-toolbar .ql-font .ql-picker-item[data-value=roboto]::before {
+    font-family: 'Roboto', sans-serif;
+    content: 'Roboto';
+}
+#quill-toolbar .ql-font .ql-picker-label[data-value=roboto]::before {
+    font-family: 'Roboto', sans-serif;
+    content: 'Roboto';
+}
