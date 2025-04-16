@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         history: { delay: 1000, maxStack: 100, userOnly: true },
       },
       theme: "snow",
-      placeholder: "Start crafting your document...",
+      // placeholder: "Start crafting your document...",
       formats: [
         "header",
         "font",
